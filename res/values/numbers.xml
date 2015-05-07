@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <integer name="welcome_wait_millis">1000</integer>
+    
+    <!-- fragment_double_color_ball.xml -->
+    <integer name="double_color_ball_visibility_change_wait_millis">1000</integer>
+
+</resources>

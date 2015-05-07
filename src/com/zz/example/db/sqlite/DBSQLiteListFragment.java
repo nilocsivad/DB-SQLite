@@ -3,9 +3,6 @@
  */
 package com.zz.example.db.sqlite;
 
-import com.example.db_sqlite.R;
-import com.example.db_sqlite.util.AH;
-
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
@@ -14,6 +11,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+
+import com.example.db_sqlite.util.AH;
 
 /**
  * @author Colin
@@ -31,7 +30,7 @@ public class DBSQLiteListFragment extends ListFragment {
 	 * 
 	 */
 	public DBSQLiteListFragment() {
-		this.setListAdapter( new ArrayAdapter<String>( this.getActivity(), android.R.layout.simple_list_item_1, AH.strArr( R.array.menu_item ) ) );
+		// TODO Auto-generated method stub
 	}
 
 	/* (non-Javadoc)
@@ -89,8 +88,10 @@ public class DBSQLiteListFragment extends ListFragment {
 	 */
 	@Override
 	public void onResume() {
-		// TODO Auto-generated method stub
 		super.onResume();
+		
+		String[] items = AH.strArr( R.array.menu_item );
+		this.setListAdapter( new ArrayAdapter<String>( this.getActivity(), android.R.layout.simple_list_item_1, items ) );
 	}
 
 }

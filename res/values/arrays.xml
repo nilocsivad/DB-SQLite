@@ -6,7 +6,7 @@
     </string-array>
 
     <string-array name="menu_item_classes">
-        <item>com.example.db_sqlite.menus.NovelFragment</item>
+        <item>com.zz.example.db.sqlite.menus.DoubleColorBallFragment</item>
     </string-array>
 
 </resources>

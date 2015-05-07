@@ -3,14 +3,19 @@
  */
 package com.example.db_sqlite.util;
 
+import java.io.File;
+
+import com.example.db_sqlite.util.ro.C;
+
 import android.content.Context;
 import android.content.res.Resources;
+import android.os.Environment;
 
 /**
  * @author Colin
  *
  */
-public final class S {
+public final class S implements C {
 
 	/**
 	 * 
@@ -27,6 +32,17 @@ public final class S {
 		CONTEXT = context.getApplicationContext();
 		
 		RESOURCES = CONTEXT.getResources();
+		
+		if ( !Environment.getExternalStorageState().equals( Environment.MEDIA_MOUNTED ) ) {
+			AH.TL( "Media unmounted!");
+		}
+	}
+	
+	public static String getDBPath() {
+		String path = DATABASE_NAME;
+		if ( Environment.getExternalStorageState().equals( Environment.MEDIA_MOUNTED ) )
+			path = /*Environment.getExternalStorageDirectory().getAbsolutePath()*/ Environment.getExternalStorageDirectory().getPath() + File.separator + P_APP_FOLDER + File.separator + DATABASE_NAME;		
+		return path;
 	}
 
 }

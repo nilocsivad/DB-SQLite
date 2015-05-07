@@ -37,5 +37,9 @@ public final class AH {
 	public static String[] strArr( int resId ) {
 		return S.RESOURCES.getStringArray( resId );
 	}
+	
+	public static int integer( int resId ) {
+		return S.RESOURCES.getInteger( resId );
+	}
 
 }

@@ -2,5 +2,13 @@
 <resources>
 
     <string name="app_name">DB-SQLite</string>
+    
+    <!-- li_double_color_ball.xml -->
+    <string name="double_color_ball_li_txt_link"> &lt;&#8212;> </string>
+    
+    <!-- fragment_double_color_ball.xml -->
+    <string name="double_color_ball_txt_refresh">Refresh</string>
+    <string name="double_color_ball_txt_fetch">Fetch</string>
+    <string name="double_color_ball_txt_fetch_all">Fetch All</string>
 
 </resources>
