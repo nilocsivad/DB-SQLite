@@ -7,11 +7,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -40,31 +43,33 @@ public class DoubleColorBallFragment extends Fragment implements C, OnItemClickL
 
 
 	public static final String[] value_keys = { 
-																	"Date", 
-																	"Number", 
-																	"RedA", 
-																	"RedB", 
-																	"RedC", 
-																	"RedD", 
-																	"RedE", 
-																	"RedF", 
-																	"Blue", 
-																	"Line"
-																	};
+												"Date", 
+												"Number", 
+												"RedA", 
+												"RedB", 
+												"RedC", 
+												"RedD", 
+												"RedE", 
+												"RedF", 
+												"Blue", 
+												"Line"
+												};
 	public static final int[] view_keys = { 
-																R.id.double_color_ball_li_tv_date, 
-																R.id.double_color_ball_li_tv_number, 
-																R.id.double_color_ball_li_tv_redA, 
-																R.id.double_color_ball_li_tv_redB, 
-																R.id.double_color_ball_li_tv_redC, 
-																R.id.double_color_ball_li_tv_redD, 
-																R.id.double_color_ball_li_tv_redE, 
-																R.id.double_color_ball_li_tv_redD, 
-																R.id.double_color_ball_li_tv_blue, 
-																R.id.double_color_ball_li_tv_line
-															}; 
+											R.id.double_color_ball_li_tv_date, 
+											R.id.double_color_ball_li_tv_number, 
+											R.id.double_color_ball_li_tv_redA, 
+											R.id.double_color_ball_li_tv_redB, 
+											R.id.double_color_ball_li_tv_redC, 
+											R.id.double_color_ball_li_tv_redD, 
+											R.id.double_color_ball_li_tv_redE, 
+											R.id.double_color_ball_li_tv_redF, 
+											R.id.double_color_ball_li_tv_blue, 
+											R.id.double_color_ball_li_tv_line
+											}; 
 	
 	public static final int LV_SIZE = 10;
+	
+	public static final int WHAT_FETCH_OK = 54321;
 	
 	/**
 	 * 
@@ -86,8 +91,6 @@ public class DoubleColorBallFragment extends Fragment implements C, OnItemClickL
 	private List<Map<String, Object>> datas = new ArrayList<Map<String,Object>>( 10 );
 	private ISQLiteDBTable<BeanDoubleColorBall> dcbTable;
 	private SimpleAdapter adapter;
-	
-	private int current = 1;
 
 	/* (non-Javadoc)
 	 * @see android.support.v4.app.Fragment#onAttach(android.app.Activity)
@@ -120,8 +123,6 @@ public class DoubleColorBallFragment extends Fragment implements C, OnItemClickL
 			this.lv_double_color_balls = ( ListView ) rootView.findViewById( R.id.double_color_ball_lv_double_color_balls );
 			this.ll_operation = ( LinearLayout ) rootView.findViewById( R.id.double_color_ball_ll_operation );
 			( ( TextView ) rootView.findViewById( R.id.double_color_ball_tv_refresh ) ).setOnClickListener( this );
-			( ( TextView ) rootView.findViewById( R.id.double_color_ball_tv_fetch ) ).setOnClickListener( this );
-			( ( TextView ) rootView.findViewById( R.id.double_color_ball_tv_fetch_all ) ).setOnClickListener( this );
 		}
 		this.initEventAndData();
 		
@@ -154,17 +155,14 @@ public class DoubleColorBallFragment extends Fragment implements C, OnItemClickL
 	 * 
 	 */
 	private void RefreshListViewData() {
-		String sql = PSQLiteDB.SQL_LIST_ALL + this.dcbTable.getTableName() + 
-							" LIMIT " + LV_SIZE + " OFFSET " + ( ( current - 1) * LV_SIZE );
+		
+		String sql = PSQLiteDB.SQL_LIST_ALL + this.dcbTable.getTableName() + " ORDER BY number DESC LIMIT " + LV_SIZE + " OFFSET " + this.adapter.getCount();
 		List<BeanDoubleColorBall> list = this.dcbTable.lists( sql );
 		
 		this.datas.addAll( list );
 		this.adapter.notifyDataSetChanged();
 		
-		if ( this.adapter.getCount() == 0 )
-			this.ll_operation.setVisibility( View.VISIBLE );
-		else
-			this.DelayVisibility();
+		this.ll_operation.setVisibility( View.GONE );
 	}
 
 	/* (non-Javadoc)
@@ -172,7 +170,6 @@ public class DoubleColorBallFragment extends Fragment implements C, OnItemClickL
 	 */
 	@Override
 	public void onItemClick(AdapterView<?> listView, View itemView, int position, long id) {
-		this.ll_operation.setVisibility( View.GONE );
 	}
 
 	/* (non-Javadoc)
@@ -180,14 +177,30 @@ public class DoubleColorBallFragment extends Fragment implements C, OnItemClickL
 	 */
 	@Override
 	public boolean onItemLongClick(AdapterView<?> listView, View itemView, int position, long id) {
-		this.DelayVisibility();
 		return true;
 	}
 	
 	private void DelayVisibility() {
 		this.ll_operation.setVisibility( View.VISIBLE );
-		this.handler_visibility.postDelayed( this.runnable_visibility, AH.integer( R.integer.double_color_ball_visibility_change_wait_millis ) );
+		if ( this.adapter.getCount() > 0 )
+			this.handler_visibility.postDelayed( this.runnable_visibility, AH.integer( R.integer.double_color_ball_visibility_change_wait_millis ) );
 	}
+	
+	@SuppressLint("HandlerLeak") private Handler handler = new Handler() {
+		@Override public void handleMessage(Message msg) {
+			switch ( msg.what ) {
+			case WHAT_EXCEPTION:
+				Exception e = ( Exception ) msg.obj;
+				AH.TS( this.getClass().getName() + " throw " + e.getClass().getName() + ": " + e.getMessage() );
+				break;
+			case WHAT_FETCH_OK:
+				RefreshListViewData();
+				break;
+			}
+			super.handleMessage(msg);
+		}
+	};
+	
 
 	/* (non-Javadoc)
 	 * @see android.view.View.OnClickListener#onClick(android.view.View)
@@ -196,19 +209,43 @@ public class DoubleColorBallFragment extends Fragment implements C, OnItemClickL
 	public void onClick(View view) {
 		switch ( view.getId() ) {
 		case R.id.double_color_ball_tv_refresh:
-			this.current++;
-			this.RefreshListViewData();
-			break;
-		case R.id.double_color_ball_tv_fetch:
-			try {
-				new FetchDoubleColorBall().ORMBangInfo( this.dcbTable );
-			} catch ( Exception e ) { AH.TS( this.getClass().getName() + " throw exception: " + e.getMessage() ); }
-			this.RefreshListViewData();
-			break;
-		case R.id.double_color_ball_tv_fetch_all:
-			this.RefreshListViewData();
+			new Thread() {
+				@Override public void run() {
+					try {
+						FetchDoubleColorBall.getInstance().ORMBangInfo( dcbTable );
+						handler.sendEmptyMessage( WHAT_FETCH_OK );
+					} catch ( Exception e ) { 
+						Message msg = Message.obtain( handler, WHAT_EXCEPTION, e );
+						handler.sendMessage( msg );
+					}
+				}
+			}.start();
 			break;
 		}
 	}
+
+	
+	/* (non-Javadoc)
+	 * @see android.support.v4.app.Fragment#onPrepareOptionsMenu(android.view.Menu)
+	 */
+	@Override
+	public void onPrepareOptionsMenu(Menu menu) {
+	
+		this.DelayVisibility();
+		
+		super.onPrepareOptionsMenu(menu);
+	}
+
+	/* (non-Javadoc)
+	 * @see android.support.v4.app.Fragment#onOptionsMenuClosed(android.view.Menu)
+	 */
+	@Override
+	public void onOptionsMenuClosed(Menu menu) {
+		
+		this.DelayVisibility();
+		
+		super.onOptionsMenuClosed(menu);
+	}
+
 
 }

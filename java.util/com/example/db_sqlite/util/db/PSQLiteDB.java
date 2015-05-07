@@ -64,7 +64,7 @@ public abstract class PSQLiteDB<T> implements C, ISQLiteDBTable<T> {
 	 */
 	@Override
 	public long countAll() {
-		return this.count( null );
+		return this.count( "" );
 	}
 
 	/* (non-Javadoc)

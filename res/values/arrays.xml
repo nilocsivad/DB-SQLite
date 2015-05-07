@@ -2,10 +2,12 @@
 <resources>
 
     <string-array name="menu_item">
-        <item>Novel</item>
+        <item>Output</item>
+        <item>Double Color Ball</item>
     </string-array>
 
     <string-array name="menu_item_classes">
+        <item>com.zz.example.db.sqlite.menus.OutputFragment</item>
         <item>com.zz.example.db.sqlite.menus.DoubleColorBallFragment</item>
     </string-array>
 

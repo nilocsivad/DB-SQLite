@@ -13,6 +13,8 @@ public interface C {
 	
 	String DATABASE_NAME = "db-sqlite.db";
 	
+	int WHAT_EXCEPTION = -1;
+	
 	/**
 	 * the URL about bang number of double color ball
 	 */
@@ -22,5 +24,5 @@ public interface C {
 	 * jsoup 60s
 	 */
 	int TM_JSOUP_WAIT = 1000 * 60;
-
+	
 }

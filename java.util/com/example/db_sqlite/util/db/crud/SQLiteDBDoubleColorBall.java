@@ -122,7 +122,7 @@ public class SQLiteDBDoubleColorBall extends PSQLiteDB<BeanDoubleColorBall> {
 	@Override
 	public Object create(BeanDoubleColorBall t) {
 		if ( this.count( " WHERE date = '" + t.getDate() + "' AND number = '" + t.getNumber() + "' " ) == 0 )
-			this.db.execSQL( this.InsertSQL(), new Object[] { t.getDate(), t.getNumber(), t.getRedA(), t.getRedB(), t.getRedC(), t.getRedD(), t.getRedE(), t.getRedF(), t.getBlue() } );
+			this.db.execSQL( this.InsertSQL(), new Object[] { t.getDate(), t.getNumber(), t.getRedA(), t.getRedB(), t.getRedC(), t.getRedD(), t.getRedE(), t.getRedF(), t.getBlue(), t.getLine() } );
 		return null;
 	}
 
