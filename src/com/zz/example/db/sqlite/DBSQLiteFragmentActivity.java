@@ -4,7 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 
-import com.example.db_sqlite.util.S;
+import com.zz.example.db.sqlite.util.S;
 
 public class DBSQLiteFragmentActivity extends FragmentActivity implements DBSQLiteListFragment.OnDBSQLiteMenuItemClick {
 

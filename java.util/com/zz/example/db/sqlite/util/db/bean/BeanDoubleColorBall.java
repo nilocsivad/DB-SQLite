@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.example.db_sqlite.util.db.bean;
+package com.zz.example.db.sqlite.util.db.bean;
 
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;

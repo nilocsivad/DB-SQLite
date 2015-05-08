@@ -16,12 +16,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.example.db_sqlite.util.AH;
-import com.example.db_sqlite.util.db.ISQLiteDBTable;
-import com.example.db_sqlite.util.db.bean.BeanDoubleColorBall;
-import com.example.db_sqlite.util.db.crud.SQLiteDBDoubleColorBall;
-import com.example.db_sqlite.util.ro.C;
 import com.zz.example.db.sqlite.R;
+import com.zz.example.db.sqlite.util.AH;
+import com.zz.example.db.sqlite.util.db.ISQLiteDBTable;
+import com.zz.example.db.sqlite.util.db.bean.BeanDoubleColorBall;
+import com.zz.example.db.sqlite.util.db.crud.SQLiteDBDoubleColorBall;
+import com.zz.example.db.sqlite.util.ro.C;
 
 /**
  * @author Colin

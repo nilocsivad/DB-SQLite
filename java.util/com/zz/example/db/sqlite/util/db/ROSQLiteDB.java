@@ -1,13 +1,13 @@
 /**
  * 
  */
-package com.example.db_sqlite.util.db;
+package com.zz.example.db.sqlite.util.db;
 
 import java.io.File;
 
 import android.database.sqlite.SQLiteDatabase;
 
-import com.example.db_sqlite.util.S;
+import com.zz.example.db.sqlite.util.S;
 
 /**
  * @author Colin

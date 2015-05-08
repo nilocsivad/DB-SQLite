@@ -1,15 +1,15 @@
 /**
  * 
  */
-package com.example.db_sqlite.util.db;
+package com.zz.example.db.sqlite.util.db;
 
 import java.util.List;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.example.db_sqlite.util.AH;
-import com.example.db_sqlite.util.ro.C;
+import com.zz.example.db.sqlite.util.AH;
+import com.zz.example.db.sqlite.util.ro.C;
 
 /**
  * @author Administrator

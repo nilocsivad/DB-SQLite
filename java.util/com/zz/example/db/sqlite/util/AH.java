@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.example.db_sqlite.util;
+package com.zz.example.db.sqlite.util;
 
 import android.widget.Toast;
 

@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.example.db_sqlite.util.lottery.dcb;
+package com.zz.example.db.sqlite.util.lottery.dcb;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -15,9 +15,9 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import com.example.db_sqlite.util.db.ISQLiteDBTable;
-import com.example.db_sqlite.util.db.bean.BeanDoubleColorBall;
-import com.example.db_sqlite.util.ro.C;
+import com.zz.example.db.sqlite.util.db.ISQLiteDBTable;
+import com.zz.example.db.sqlite.util.db.bean.BeanDoubleColorBall;
+import com.zz.example.db.sqlite.util.ro.C;
 
 /**
  * @author Colin

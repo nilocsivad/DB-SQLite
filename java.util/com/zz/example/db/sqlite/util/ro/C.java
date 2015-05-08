@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.example.db_sqlite.util.ro;
+package com.zz.example.db.sqlite.util.ro;
 
 /**
  * @author Colin

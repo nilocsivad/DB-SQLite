@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.example.db_sqlite.util.db;
+package com.zz.example.db.sqlite.util.db;
 
 import java.util.List;
 import java.util.Map;

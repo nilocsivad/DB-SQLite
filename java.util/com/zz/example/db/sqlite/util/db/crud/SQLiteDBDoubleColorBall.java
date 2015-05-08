@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.example.db_sqlite.util.db.crud;
+package com.zz.example.db.sqlite.util.db.crud;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,8 +9,8 @@ import java.util.Map;
 
 import android.database.Cursor;
 
-import com.example.db_sqlite.util.db.PSQLiteDB;
-import com.example.db_sqlite.util.db.bean.BeanDoubleColorBall;
+import com.zz.example.db.sqlite.util.db.PSQLiteDB;
+import com.zz.example.db.sqlite.util.db.bean.BeanDoubleColorBall;
 
 /**
  * @author Administrator
