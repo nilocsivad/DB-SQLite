@@ -15,8 +15,10 @@ import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -28,10 +30,8 @@ import android.widget.TextView;
 
 import com.example.db_sqlite.util.AH;
 import com.example.db_sqlite.util.db.ISQLiteDBTable;
-import com.example.db_sqlite.util.db.PSQLiteDB;
 import com.example.db_sqlite.util.db.bean.BeanDoubleColorBall;
 import com.example.db_sqlite.util.db.crud.SQLiteDBDoubleColorBall;
-import com.example.db_sqlite.util.lottery.dcb.FetchDoubleColorBall;
 import com.example.db_sqlite.util.ro.C;
 import com.zz.example.db.sqlite.R;
 
@@ -39,7 +39,7 @@ import com.zz.example.db.sqlite.R;
  * @author Colin
  *
  */
-public class DoubleColorBallFragment extends Fragment implements C, OnItemClickListener, OnItemLongClickListener, OnClickListener {
+public class DoubleColorBallFragment extends Fragment implements C, OnItemClickListener, OnItemLongClickListener, OnClickListener, OnTouchListener {
 
 
 	public static final String[] value_keys = { 
@@ -78,12 +78,12 @@ public class DoubleColorBallFragment extends Fragment implements C, OnItemClickL
 		// TODO Auto-generated constructor stub
 	}
 	
-	private Handler handler_visibility = new Handler();
-	private Runnable runnable_visibility = new Runnable() {
-		@Override public void run() {
-			ll_operation.setVisibility( View.GONE );
-		}
-	};
+//	private Handler handler_visibility = new Handler();
+//	private Runnable runnable_visibility = new Runnable() {
+//		@Override public void run() {
+//			ll_operation.setVisibility( View.GONE );
+//		}
+//	};
 	
 	private ListView lv_double_color_balls;
 	private LinearLayout ll_operation;
@@ -137,6 +137,8 @@ public class DoubleColorBallFragment extends Fragment implements C, OnItemClickL
 		this.lv_double_color_balls.setOnItemClickListener( this );
 		this.lv_double_color_balls.setOnItemLongClickListener( this );
 		this.lv_double_color_balls.setAdapter( adapter );
+		this.lv_double_color_balls.setVerticalFadingEdgeEnabled( false );
+		this.lv_double_color_balls.setOnTouchListener( this );
 	}
 
 	/* (non-Javadoc)
@@ -156,8 +158,7 @@ public class DoubleColorBallFragment extends Fragment implements C, OnItemClickL
 	 */
 	private void RefreshListViewData() {
 		
-		String sql = PSQLiteDB.SQL_LIST_ALL + this.dcbTable.getTableName() + " ORDER BY number DESC LIMIT " + LV_SIZE + " OFFSET " + this.adapter.getCount();
-		List<BeanDoubleColorBall> list = this.dcbTable.lists( sql );
+		List<BeanDoubleColorBall> list = this.dcbTable.lists( " ORDER BY number DESC LIMIT " + LV_SIZE + " OFFSET " + this.adapter.getCount() );
 		
 		this.datas.addAll( list );
 		this.adapter.notifyDataSetChanged();
@@ -169,7 +170,7 @@ public class DoubleColorBallFragment extends Fragment implements C, OnItemClickL
 	 * @see android.widget.AdapterView.OnItemClickListener#onItemClick(android.widget.AdapterView, android.view.View, int, long)
 	 */
 	@Override
-	public void onItemClick(AdapterView<?> listView, View itemView, int position, long id) {
+	public void onItemClick( AdapterView<?> listView, View itemView, int position, long id ) {
 	}
 
 	/* (non-Javadoc)
@@ -181,9 +182,9 @@ public class DoubleColorBallFragment extends Fragment implements C, OnItemClickL
 	}
 	
 	private void DelayVisibility() {
-		this.ll_operation.setVisibility( View.VISIBLE );
-		if ( this.adapter.getCount() > 0 )
-			this.handler_visibility.postDelayed( this.runnable_visibility, AH.integer( R.integer.double_color_ball_visibility_change_wait_millis ) );
+//		this.ll_operation.setVisibility( View.VISIBLE );
+//		if ( this.adapter.getCount() > 0 )
+//			this.handler_visibility.postDelayed( this.runnable_visibility, AH.integer( R.integer.double_color_ball_visibility_change_wait_millis ) );
 	}
 	
 	@SuppressLint("HandlerLeak") private Handler handler = new Handler() {
@@ -209,17 +210,17 @@ public class DoubleColorBallFragment extends Fragment implements C, OnItemClickL
 	public void onClick(View view) {
 		switch ( view.getId() ) {
 		case R.id.double_color_ball_tv_refresh:
-			new Thread() {
-				@Override public void run() {
-					try {
-						FetchDoubleColorBall.getInstance().ORMBangInfo( dcbTable );
-						handler.sendEmptyMessage( WHAT_FETCH_OK );
-					} catch ( Exception e ) { 
-						Message msg = Message.obtain( handler, WHAT_EXCEPTION, e );
-						handler.sendMessage( msg );
-					}
-				}
-			}.start();
+//			new Thread() {
+//				@Override public void run() {
+//					try {
+//						FetchDoubleColorBall.getInstance().ORMBangInfo( dcbTable );
+//						handler.sendEmptyMessage( WHAT_FETCH_OK );
+//					} catch ( Exception e ) { 
+//						Message msg = Message.obtain( handler, WHAT_EXCEPTION, e );
+//						handler.sendMessage( msg );
+//					}
+//				}
+//			}.start();
 			break;
 		}
 	}
@@ -247,5 +248,13 @@ public class DoubleColorBallFragment extends Fragment implements C, OnItemClickL
 		super.onOptionsMenuClosed(menu);
 	}
 
+	/* (non-Javadoc)
+	 * @see android.view.View.OnTouchListener#onTouch(android.view.View, android.view.MotionEvent)
+	 */
+	@Override
+	public boolean onTouch(View arg0, MotionEvent arg1) {
+		// TODO Auto-generated method stub
+		return false;
+	}
 
 }

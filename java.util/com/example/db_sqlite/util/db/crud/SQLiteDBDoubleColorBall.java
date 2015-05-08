@@ -24,6 +24,7 @@ public class SQLiteDBDoubleColorBall extends PSQLiteDB<BeanDoubleColorBall> {
 	 * 
 	 */
 	public SQLiteDBDoubleColorBall() {
+		super();
 		// TODO Auto-generated constructor stub
 	}
 
@@ -86,20 +87,12 @@ public class SQLiteDBDoubleColorBall extends PSQLiteDB<BeanDoubleColorBall> {
 	}
 
 	/* (non-Javadoc)
-	 * @see com.example.db_sqlite.util.db.ISQLiteDBTable#listAll()
-	 */
-	@Override
-	public List<BeanDoubleColorBall> listAll() {
-		return this.lists( SQL_LIST_ALL + TABLE_NAME );
-	}
-
-	/* (non-Javadoc)
 	 * @see com.example.db_sqlite.util.db.ISQLiteDBTable#lists(java.lang.String)
 	 */
 	@Override
 	public List<BeanDoubleColorBall> lists( String where ) {
 		List<BeanDoubleColorBall> list = new ArrayList<BeanDoubleColorBall>( 10 );
-		Cursor cursor = this.db.rawQuery( where, /*new String[] { TABLE_NAME }*/ null );
+		Cursor cursor = this.db.rawQuery( this.SQLListAll() + where, null );
 		while ( cursor.moveToNext() ) {
 			String date = cursor.getString( cursor.getColumnIndex( "date" ) );
 			String number = cursor.getString( cursor.getColumnIndex( "number" ) );
@@ -123,7 +116,7 @@ public class SQLiteDBDoubleColorBall extends PSQLiteDB<BeanDoubleColorBall> {
 	public Object create(BeanDoubleColorBall t) {
 		if ( this.count( " WHERE date = '" + t.getDate() + "' AND number = '" + t.getNumber() + "' " ) == 0 )
 			this.db.execSQL( this.InsertSQL(), new Object[] { t.getDate(), t.getNumber(), t.getRedA(), t.getRedB(), t.getRedC(), t.getRedD(), t.getRedE(), t.getRedF(), t.getBlue(), t.getLine() } );
-		return null;
+		return 1;
 	}
 
 	/* (non-Javadoc)

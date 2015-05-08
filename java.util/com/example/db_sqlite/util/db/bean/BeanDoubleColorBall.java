@@ -208,7 +208,7 @@ public class BeanDoubleColorBall extends HashMap<String, Object> implements Seri
 		String field = key.toString();
 		Object result = null;
 		try {
-			result = this.getClass().getDeclaredMethod( "get" + field, null ).invoke( this );
+			result = BeanDoubleColorBall.class.getDeclaredMethod( "get" + field ).invoke( this );
 		} catch (NoSuchMethodException e) { 
 		} catch (IllegalAccessException e) {
 		} catch (IllegalArgumentException e) {

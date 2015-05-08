@@ -101,19 +101,17 @@ public final class FetchDoubleColorBall implements C {
 		} else {
 			
 			BeanDoubleColorBall lastest = dcbTable.lists( " ORDER BY number DESC LIMIT 1 " ).get( 0 );
+			
 			int lastest_num = Integer.parseInt( lastest.getNumber() );
 			int new_num = Integer.parseInt( first.getNumber() );
 			int lazy_num = Integer.parseInt( last.getNumber() );
+			
 			if ( lastest_num == new_num ) {
-			} else if ( lastest_num < new_num && lastest_num >= lazy_num ) {
+			} else if (lastest_num >= lazy_num ) { // ** only need to deal first page data
 				this.ResolveDocument( dcbTable );
-			} else {
-				boolean b_continue = true;
-				do {sdfasdfasdfasd
-					this.ResolveDocument( dcbTable );
-					this.index++;
-					this.document = Jsoup.parse( new URL( URL_DCB_NUMBER + this.index ) , TM_JSOUP_WAIT );
-				} while ( b_continue );
+			} else { // ** clear all records, then fetch all again
+				dcbTable.removeAll();
+				this.ORMBangInfo( dcbTable );
 			}
 		}
 	}

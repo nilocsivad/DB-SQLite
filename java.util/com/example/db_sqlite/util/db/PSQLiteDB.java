@@ -3,11 +3,13 @@
  */
 package com.example.db_sqlite.util.db;
 
-import com.example.db_sqlite.util.AH;
-import com.example.db_sqlite.util.ro.C;
+import java.util.List;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+
+import com.example.db_sqlite.util.AH;
+import com.example.db_sqlite.util.ro.C;
 
 /**
  * @author Administrator
@@ -36,7 +38,6 @@ public abstract class PSQLiteDB<T> implements C, ISQLiteDBTable<T> {
 	
 	/**
 	 * check whether exists table
-	 * @throws SQLException 
 	 */
 	private void validateTable() {
 		Cursor cursor = this.db.rawQuery( SQL_VALID_TABLE, new String[] { this.getTableName().trim() } );
@@ -86,6 +87,39 @@ public abstract class PSQLiteDB<T> implements C, ISQLiteDBTable<T> {
 	@Override
 	public String SQLListAll() {
 		return SQL_LIST_ALL + this.getTableName();
+	}
+
+	/* (non-Javadoc)
+	 * @see com.example.db_sqlite.util.db.ISQLiteDBTable#listAll()
+	 */
+	@Override
+	public List<T> listAll() {
+		return this.lists( this.SQLListAll() );
+	}
+
+	/* (non-Javadoc)
+	 * @see com.example.db_sqlite.util.db.ISQLiteDBTable#SQLRemoveAll()
+	 */
+	@Override
+	public String SQLRemoveAll() {
+		return "DELETE FROM " + this.getTableName();
+	}
+
+	/* (non-Javadoc)
+	 * @see com.example.db_sqlite.util.db.ISQLiteDBTable#removeAll()
+	 */
+	@Override
+	public void removeAll() {
+		this.db.execSQL( this.SQLRemoveAll() );
+	}
+
+	/* (non-Javadoc)
+	 * @see com.example.db_sqlite.util.db.ISQLiteDBTable#remove(java.lang.String)
+	 */
+	@Override
+	public Object remove(String where) {
+		this.db.execSQL(  this.SQLCountAll() + where, null );
+		return 1;
 	}
 
 }

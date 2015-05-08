@@ -39,7 +39,13 @@ public interface ISQLiteDBTable<T> {
 	
 	Object create( Map<?, ?> map );
 	
+	String SQLRemoveAll();
+	
+	void removeAll();
+	
 	Object remove( T t );
+	
+	Object remove( String where );
 	
 	Object remove( Map<?, ?> map );
 	
