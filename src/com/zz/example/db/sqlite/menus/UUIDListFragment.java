@@ -23,6 +23,7 @@ import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.zz.example.db.sqlite.R;
@@ -47,13 +48,42 @@ public class UUIDListFragment extends ListFragment implements OnTouchListener, O
 	
 	private ArrayAdapter<UUID> adapter;
 	
+	private View headView;
+
+	/* (non-Javadoc)
+	 * @see android.support.v4.app.Fragment#onCreate(android.os.Bundle)
+	 */
+	@Override
+	public void onCreate( Bundle savedInstanceState ) {
+		super.onCreate( savedInstanceState );
+	}
+	
 	/* (non-Javadoc)
 	 * @see android.support.v4.app.ListFragment#onCreateView(android.view.LayoutInflater, android.view.ViewGroup, android.os.Bundle)
 	 */
 	@SuppressLint("InflateParams")
 	@Override
 	public View onCreateView( LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState ) {
-		return super.onCreateView( inflater, container, savedInstanceState );
+		super.onCreateView( inflater, container, savedInstanceState );
+		
+		View rooView = inflater.inflate( R.layout.fragment_uuid, container, false );
+		
+		{
+			ListView lv = ( ListView ) rooView.findViewById( android.R.id.list );
+			{
+				this.headView = this.getActivity().getLayoutInflater().inflate( R.layout.li_uuid_header, null, false );
+				( ( TextView ) this.headView.findViewById( R.id.uuid_tv_header_refresh ) ).setOnClickListener( this );
+				lv.addHeaderView( this.headView, null, false );
+				//this.headView.setVisibility( View.GONE );
+			}
+			{
+				View footView = this.getActivity().getLayoutInflater().inflate( R.layout.li_uuid_footer, null, false );
+				( ( TextView ) footView.findViewById( R.id.uuid_tv_footer_refresh ) ).setOnClickListener( this );
+				lv.addFooterView( footView, null, false );
+			}
+		}
+		
+		return rooView;
 	}
 
 	/**
@@ -62,26 +92,33 @@ public class UUIDListFragment extends ListFragment implements OnTouchListener, O
 	@SuppressLint("InflateParams")
 	private void initEventAndData() {
 		
-		if ( this.getListView().getFooterViewsCount() == 0 ) {
-			View footView = this.getActivity().getLayoutInflater().inflate( R.layout.li_uuid_foot, null );
-			{
-				( ( TextView ) footView.findViewById( R.id.uuid_tv_refresh ) ).setOnClickListener( this );
-				this.getListView().addFooterView( footView, null, false );
-			}
-		}
+//		this.getListView().addFooterView( footView, null, false );
 		
-		List<UUID> list = new ArrayList<UUID>( LV_SIZE );
-		for ( int i = 0; i < LV_SIZE; ++i ) {
-			list.add( UUID.randomUUID() );
-		}
-		this.datas.addAll( list );
-		
-		this.adapter = new ArrayAdapter<UUID>( this.getActivity(), android.R.layout.simple_list_item_1, this.datas );
-		this.getListView().setAdapter( this.adapter );
 		this.getListView().setOnTouchListener( this );
 		this.getListView().setOnScrollListener( this );
 		this.getListView().setOnItemClickListener( this );
 		
+		this.adapter = new ArrayAdapter<UUID>( this.getActivity(), android.R.layout.simple_list_item_1, this.datas );
+		this.getListView().setAdapter( this.adapter );
+	}
+
+	/* (non-Javadoc)
+	 * @see android.support.v4.app.Fragment#onActivityCreated(android.os.Bundle)
+	 */
+	@Override
+	public void onActivityCreated(Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
+		
+		this.initEventAndData();
+	}
+
+	/* (non-Javadoc)
+	 * @see android.support.v4.app.Fragment#onStart()
+	 */
+	@Override
+	public void onStart() {
+		// TODO Auto-generated method stub
+		super.onStart();
 	}
 
 	/* (non-Javadoc)
@@ -91,15 +128,6 @@ public class UUIDListFragment extends ListFragment implements OnTouchListener, O
 	public void onAttach( Activity activity ) {
 		// TODO Auto-generated method stub
 		super.onAttach( activity );
-	}
-
-	/* (non-Javadoc)
-	 * @see android.support.v4.app.Fragment#onCreate(android.os.Bundle)
-	 */
-	@Override
-	public void onCreate( Bundle savedInstanceState ) {
-		// TODO Auto-generated method stub
-		super.onCreate( savedInstanceState );
 	}
 
 	/* (non-Javadoc)
@@ -117,26 +145,18 @@ public class UUIDListFragment extends ListFragment implements OnTouchListener, O
 	@Override
 	public void onResume() {
 		super.onResume();
-		this.initEventAndData();
-//		this.RefreshListView();
+		this.RefreshListView();
 	}
 
 	/**
 	 * 
 	 */
 	private void RefreshListView() {
-		
-//		int selection = this.adapter.getCount();
-		
 		List<UUID> list = new ArrayList<UUID>( LV_SIZE );
-		for ( int i = 0; i < LV_SIZE; ++i ) {
+		for ( int i = 0; i < LV_SIZE; ++i )
 			list.add( UUID.randomUUID() );
-		}
 		this.datas.addAll( list );
 		this.adapter.notifyDataSetChanged();
-		
-//		this.BottomMenuVisibility( false );
-//		this.getListView().setSelection( selection );
 	}
 
 	/* (non-Javadoc)
