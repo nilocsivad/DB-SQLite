@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MotionEvent;
@@ -20,6 +21,8 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
+import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
@@ -39,7 +42,7 @@ import com.zz.example.db.sqlite.util.ro.C;
  * @author Colin
  *
  */
-public class DoubleColorBallFragment extends Fragment implements C, OnItemClickListener, OnItemLongClickListener, OnClickListener, OnTouchListener {
+public class DoubleColorBallFragment extends Fragment implements C, OnItemClickListener, OnItemLongClickListener, OnClickListener, OnTouchListener, OnScrollListener {
 
 
 	public static final String[] value_keys = { 
@@ -139,6 +142,7 @@ public class DoubleColorBallFragment extends Fragment implements C, OnItemClickL
 		this.lv_double_color_balls.setAdapter( adapter );
 		this.lv_double_color_balls.setVerticalFadingEdgeEnabled( false );
 		this.lv_double_color_balls.setOnTouchListener( this );
+		this.lv_double_color_balls.setOnScrollListener( this );
 	}
 
 	/* (non-Javadoc)
@@ -247,14 +251,47 @@ public class DoubleColorBallFragment extends Fragment implements C, OnItemClickL
 		
 		super.onOptionsMenuClosed(menu);
 	}
+	
+//	public static final int ACTION_DOWN = 0;
+//	public static final int ACTION_UP = 1;
+//	public static final int ACTION_MOVE = 2;
 
 	/* (non-Javadoc)
 	 * @see android.view.View.OnTouchListener#onTouch(android.view.View, android.view.MotionEvent)
 	 */
+	@SuppressLint("ClickableViewAccessibility")
 	@Override
-	public boolean onTouch(View arg0, MotionEvent arg1) {
+	public boolean onTouch( View view, MotionEvent event ) {
 		// TODO Auto-generated method stub
+		Log.e( "com.zz.example.db.sqlite", view.getClass().getName() + " onTouch --> " + event.getAction() );
 		return false;
+	}
+	
+	private int max_item = 0;
+	
+	private void BottomMenuVisibility( boolean isShow ) {
+		if ( isShow ) {
+		} else {
+		}
+	}
+
+	/* (non-Javadoc)
+	 * @see android.widget.AbsListView.OnScrollListener#onScroll(android.widget.AbsListView, int, int, int)
+	 */
+	@Override
+	public void onScroll( AbsListView view, int firstVisibleIndex, int visibleItemCount, int totalItemCount ) {
+		if ( this.max_item == 0 )
+			this.max_item = visibleItemCount;
+		this.BottomMenuVisibility( firstVisibleIndex + this.max_item == totalItemCount );
+		Log.e( "com.zz.example.db.sqlite", view.getClass().getName() + " onScroll --> " + firstVisibleIndex + ", " + visibleItemCount + ", " + totalItemCount );
+	}
+
+	/* (non-Javadoc)
+	 * @see android.widget.AbsListView.OnScrollListener#onScrollStateChanged(android.widget.AbsListView, int)
+	 */
+	@Override
+	public void onScrollStateChanged( AbsListView view, int scrollState ) {
+		Log.e( "com.zz.example.db.sqlite", view.getClass().getName() + " onScrollStateChanged --> " + scrollState );
 	}
 
 }

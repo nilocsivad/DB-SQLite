@@ -65,6 +65,7 @@ public final class R {
         public static final int double_color_ball_lv_double_color_balls=0x7f090002;
         public static final int double_color_ball_tv_refresh=0x7f090004;
         public static final int output_tv_text=0x7f090005;
+        public static final int uuid_tv_refresh=0x7f090012;
     }
     public static final class integer {
         /**  fragment_double_color_ball.xml 
@@ -77,7 +78,9 @@ public final class R {
         public static final int activity_menus=0x7f030001;
         public static final int fragment_double_color_ball=0x7f030002;
         public static final int fragment_output=0x7f030003;
-        public static final int li_double_color_ball=0x7f030004;
+        public static final int fragment_uuid=0x7f030004;
+        public static final int li_double_color_ball=0x7f030005;
+        public static final int li_uuid_foot=0x7f030006;
     }
     public static final class string {
         public static final int app_name=0x7f070000;
@@ -89,6 +92,9 @@ public final class R {
         /**  fragment_double_color_ball.xml 
          */
         public static final int double_color_ball_txt_refresh=0x7f070002;
+        /**  fragment_uuid.xml 
+         */
+        public static final int uuid_txt_wait2refresh=0x7f070005;
     }
     public static final class style {
         /** 

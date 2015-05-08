@@ -10,5 +10,8 @@
     <string name="double_color_ball_txt_refresh">Refresh</string>
     <string name="double_color_ball_txt_fetch">Fetch</string>
     <string name="double_color_ball_txt_fetch_all">Fetch All</string>
+    
+    <!-- fragment_uuid.xml -->
+    <string name="uuid_txt_wait2refresh">Click to refresh</string>
 
 </resources>
